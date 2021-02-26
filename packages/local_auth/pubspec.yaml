@@ -28,7 +28,7 @@ dev_dependencies:
     sdk: flutter
   flutter_test:
     sdk: flutter
-  pedantic: ^1.10.0
+  pedantic: ^1.9.2
 
 environment:
   sdk: ">=2.10.0 <3.0.0"
