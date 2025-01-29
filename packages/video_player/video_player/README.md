@@ -6,43 +6,28 @@ A Flutter plugin for iOS, Android and Web for playing back video on a Widget sur
 
 ![The example app running in iOS](https://github.com/flutter/plugins/blob/master/packages/video_player/video_player/doc/demo_ipod.gif?raw=true)
 
-*Note*: This plugin is still under development, and some APIs might not be available yet.
-[Feedback welcome](https://github.com/flutter/flutter/issues) and
-[Pull Requests](https://github.com/flutter/plugins/pulls) are most welcome!
-
 ## Installation
 
 First, add `video_player` as a [dependency in your pubspec.yaml file](https://flutter.dev/using-packages/).
 
 ### iOS
 
-Warning: The video player is not functional on iOS simulators. An iOS device must be used during development/testing.
-
-Add the following entry to your _Info.plist_ file, located in `<project root>/ios/Runner/Info.plist`:
-
-```xml
-<key>NSAppTransportSecurity</key>
-<dict>
-  <key>NSAllowsArbitraryLoads</key>
-  <true/>
-</dict>
-```
-
-This entry allows your app to access video files by URL.
+If you need to access videos using `http` (rather than `https`) URLs, you will need to add
+the appropriate `NSAppTransportSecurity` permissions to your app's _Info.plist_ file, located
+in `<project root>/ios/Runner/Info.plist`. See
+[Apple's documentation](https://developer.apple.com/documentation/bundleresources/information_property_list/nsapptransportsecurity)
+to determine the right combination of entries for your use case and supported iOS versions.
 
 ### Android
 
-Ensure the following permission is present in your Android Manifest file, located in `<project root>/android/app/src/main/AndroidManifest.xml`:
+If you are using network-based videos, ensure that the following permission is present in your
+Android Manifest file, located in `<project root>/android/app/src/main/AndroidManifest.xml`:
 
 ```xml
 <uses-permission android:name="android.permission.INTERNET"/>
 ```
 
-The Flutter project template adds it, so it may already be there.
-
 ### Web
-
-This plugin compiles for the web platform since version `0.10.5`, in recent enough versions of Flutter (`>=1.12.13+hotfix.4`).
 
 > The Web platform does **not** suppport `dart:io`, so avoid using the `VideoPlayerController.file` constructor for the plugin. Using the constructor attempts to create a `VideoPlayerController.file` that will throw an `UnimplementedError`.
 
@@ -79,7 +64,7 @@ class _VideoAppState extends State<VideoApp> {
   void initState() {
     super.initState();
     _controller = VideoPlayerController.network(
-        'https://www.sample-videos.com/video123/mp4/720/big_buck_bunny_720p_20mb.mp4')
+        'https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4')
       ..initialize().then((_) {
         // Ensure the first frame is shown after the video is initialized, even before the play button has been pressed.
         setState(() {});
@@ -92,7 +77,7 @@ class _VideoAppState extends State<VideoApp> {
       title: 'Video Demo',
       home: Scaffold(
         body: Center(
-          child: _controller.value.initialized
+          child: _controller.value.isInitialized
               ? AspectRatio(
                   aspectRatio: _controller.value.aspectRatio,
                   child: VideoPlayer(_controller),
@@ -133,7 +118,7 @@ This is not complete as of now. You can contribute to this section by [opening a
 ### Playback speed
 
 You can set the playback speed on your `_controller` (instance of `VideoPlayerController`) by
-calling `_controller.setPlaybackSpeed`. `setPlaybackSpeed` takes a `double` speed value indicating 
+calling `_controller.setPlaybackSpeed`. `setPlaybackSpeed` takes a `double` speed value indicating
 the rate of playback for your video.  
 For example, when given a value of `2.0`, your video will play at 2x the regular playback speed
 and so on.
