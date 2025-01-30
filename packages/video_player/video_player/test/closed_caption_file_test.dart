@@ -1,4 +1,4 @@
-// Copyright 2020 The Chromium Authors. All rights reserved.
+// Copyright 2013 The Flutter Authors. All rights reserved.
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
@@ -8,7 +8,7 @@ import 'package:video_player/src/closed_caption_file.dart';
 void main() {
   group('ClosedCaptionFile', () {
     test('toString()', () {
-      final Caption caption = const Caption(
+      const Caption caption = Caption(
         number: 1,
         start: Duration(seconds: 1),
         end: Duration(seconds: 2),
